@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var cars = ["Audi", "Lexus", "Lamborghini", "Toyota", "Ferrari", "Tesla", "Chevrolet", "Mopar", "Ford", "The Avengers", "The Matrix", "Captain America"];
+    var cars = ["Audi", "Lexus", "Lamborghini", "Toyota", "Ferrari", "Tesla", "Chevrolet", "Mopar", "Ford", "The Avengers", "The Matrix", "Captin America"];
     var favArray = [];
   
 
@@ -48,7 +48,9 @@ $(document).ready(function(){
 
         renderButtons();
     $(document).on("click", "#download", function(){
-        console.log("Create Download feature")
+       console.log("need to figure out how to download items");
+        
+        
     })
         
     $(document).on("click", "#favorite", function(){
