@@ -1,56 +1,112 @@
 $(document).ready(function(){
-    var cars = ["Audi A4", "Aventador", "F70 LaFerrari", "Audi R8", "Audi RS7", "F430 Scuderia", "Silverado", "Hummer", "Corvette", "GTO"];
-      // Function for displaying movie data
+    var cars = ["Audi", "Lexus", "Lamborghini", "Toyota", "Ferrari", "Tesla", "Chevrolet", "Mopar", "Ford", "The Avengers", "The Matrix", "Captain America"];
+    var favArray = [];
+  
+
+      // Function for displaying cars data
       function renderButtons() {
 
-        // Deleting the cars prior to adding new cars
-        // (this is necessary otherwise you will have repeat buttons)
+        
+        // clears the buttons div so repeat buttons dont appear
         $("#buttons").empty();
 
         // Looping through the array of cars
         for (var i = 0; i < cars.length; i++) {
 
-          // Then dynamicaly generating buttons for each movie in the array
-          // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
           var btn = $("<button>");
-          // Adding a class of movie-btn to our button
+        
           btn.addClass("car-btn btn btn-primary");
-          // Adding a data-attribute
+          
           btn.attr("data-name", cars[i]);
-          // Providing the initial button text
+          
           btn.text(cars[i]);
-          // Adding the button to the buttons-view div
+          
           $("#buttons").append(btn);
         }
       }
 
-      // This function handles events where a movie button is clicked
+      // This function handles events where a car button is clicked
       $("#add-car").on("click", function(event) {
         event.preventDefault();
+        
         // This line grabs the input from the textbox
         var car = $("#car-input").val().trim();
-
+        carIndex = cars.indexOf(car);
+        console.log(carIndex);
         // Adding movie from the textbox to our array
-        cars.push(car);
-
-        // Calling renderButtons which handles the processing of our movie array
+        if(car === ""){
+        }
+        else if(carIndex > -1){
+        }
+        else{
+            cars.push(car);
+        }
+        $("#input")[0].reset();
+        // Calling renderButtons which handles the processing of our cars array
         renderButtons();
-      });
+    });
 
-      renderButtons();
+        renderButtons();
+    $(document).on("click", "#download", function(){
+        console.log("Create Download feature")
+    })
+        
+    $(document).on("click", "#favorite", function(){
+        var favorite = $(this).parent();
+        $(this).remove();
+        var fav = favorite.clone();
+        var removeBtn = $("<button>").text("Remove");
+        removeBtn.attr("id", "remove").addClass("btn");
+        fav.append(removeBtn);
+        $("#favorites").append(fav);
+        var object = favorite[0].innerHTML;
+        console.log(object)
+        favArray.push(object);
+        localStorage.setItem("favs", JSON.stringify(favArray));
+    });
     
-    $("button").on("click", function() {
+    var saved = JSON.parse(localStorage.getItem("favs"));
+        
+    if(saved != null){
+        for(var i = 0; i < saved.length; i++){
+            save = saved[i];
+            var savedDiv = $("<div>");
+            var removeBtn = $("<button>").text("Remove");
+            removeBtn.attr("id", "remove").addClass("btn");
+            savedDiv.addClass(" image pull-left");
+            savedDiv.append(save);
+            savedDiv.append(removeBtn);
+            $("#favorites").append(savedDiv);
+            favArray.push(save);
+
+            };
+        };
+    $(document).on("click", "#remove", function(){
+        var item = $(this).parent();
+        $(this).remove();
+        item.remove();
+        remove = item[0].innerHTML;
+        console.log(favArray);
+        console.log(remove);
+        var index = favArray.indexOf(remove);
+        console.log(index);
+        favArray.splice(index, 1);
+        
+        localStorage.setItem("favs", JSON.stringify(favArray));
+    });
+
+    $(document).on("click", ".car-btn", function() {
         var selection = $(this).attr("data-name");
+        var apiURL = "https://www.omdbapi.com/?t=" + selection + "&type=movie&y=&plot=short&&apikey=cced8e5a"
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
           selection + "&api_key=cHTR1t44f06SYghIKoUD1hrQSN1ReD6Z&limit=10";
   
         $.ajax({
         url: queryURL,
-        method: "GET"
+        method: "GET",
         })
         .then(function(response) {
             var results = response.data;
-            console.log(results);
             for(var i = 0; i < results.length; i ++){
                 var title = results[i].title.toUpperCase();
                 var ratings = results[i].rating.toUpperCase();
@@ -60,6 +116,10 @@ $(document).ready(function(){
                 var carDiv = $("<div>");
                 carDiv.addClass("image pull-left");
                 var carImage = $("<img>");
+                var download = $("<button>").text("Download");
+                var fav = $("<button>").text("Add Favorite");
+                download.attr("id", "download").addClass("btn");
+                fav.attr("id", "favorite").addClass("btn");
                 var prate = $("<p>").text("Rating: " + ratings)
                 var ptitle = $("<p>").text(title);
                 carImage.attr("src", imgURL);
@@ -71,12 +131,52 @@ $(document).ready(function(){
                 carDiv.append(ptitle);
                 carDiv.append(carImage);
                 carDiv.append(prate);
+                carDiv.append(fav, download);
                 $("#gif-images").prepend(carDiv);
+    
             };
 
 
         });
+        $.ajax({
+            url: apiURL,
+            method: "GET",
+        })
+        .then(function(info){
+    
+          var movieDiv = $("<div class='movie'>");
 
+          var rating = info.Rated;
+
+          var pRate = $("<p>").text("Rating: " + rating);
+
+          movieDiv.append(pRate);
+
+          var released = info.Released;
+
+          var pRelease = $("<p>").text("Released: " + released);
+
+          movieDiv.append(pRelease);
+
+          var plot = info.Plot;
+
+          var pPlot = $("<p>").text("Plot: " + plot);
+
+          movieDiv.append(pPlot);
+
+          var imgURL = info.Poster;
+
+          var image = $("<img>").attr("src", imgURL);
+
+          movieDiv.append(image);
+            if(plot === "N/A"){
+            }
+            else if(rating === "N/A"){
+            }
+            else{
+          $("#movie-view").prepend(movieDiv);
+            }
+        })
     });
     $(document).on("click", ".images", function() {
         var state = $(this).attr("data-state");

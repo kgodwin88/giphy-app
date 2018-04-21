@@ -1,6 +1,12 @@
-.car-btn{
-    margin: 10px;
+.btn{
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 .image{
-    margin: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+form{
+    margin: 0 auto;                     
+    margin-bottom: 15px;
 }
