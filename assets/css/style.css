@@ -1,6 +1,10 @@
+body{
+    color: white;
+}
 .btn{
     margin-right: 10px;
     margin-bottom: 10px;
+    color: black;
 }
 .image{
     margin-right: 10px;
@@ -9,4 +13,33 @@
 form{
     margin: 0 auto;                     
     margin-bottom: 15px;
+}
+.jumbotron{
+    margin-top: 10px;
+    background-image: url(../images/cars.jpg);
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-shadow: 1.5px 1.5px 0px #000;
+}
+body{
+    background-image: url(../images/cars_background.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+
+}
+
+p{
+    font-size: 20px;
+    text-shadow: 1.5px 1.5px 0px #000;
+}
+h3{
+    font-size: 30px;
+    text-shadow: 1.5px 1.5px 0px #000;
+}
+#label{
+    font-size: 20px;
+    text-shadow: 1.5px 1.5px 0px #000;
 }
