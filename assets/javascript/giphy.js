@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var cars = ["Audi", "Lexus", "Lamborghini", "Toyota", "Ferrari", "Tesla", "Chevrolet", "Mopar", "Ford", "The Avengers", "The Matrix", "Captin America"];
+    var cars = ["Audi", "Lexus", "Lamborghini", "Toyota", "Ferrari", "Tesla", "Chevrolet", "Mopar", "Ford", "The Avengers", "The Matrix", "Captain America"];
     var favArray = [];
   
 
@@ -169,9 +169,9 @@ $(document).ready(function(){
           var imgURL = info.Poster;
 
           var image = $("<img>").attr("src", imgURL);
-
+            console.log(plot)
           movieDiv.append(image);
-            if(plot === "N/A"){
+            if(plot === "N/A"|| plot === undefined){
             }
             else if(rating === "N/A"){
             }
